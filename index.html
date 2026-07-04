@@ -1,217 +1,202 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>チップカウント練習 スプレッド版</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>チップカウント練習</title>
 <style>
-  :root{
-    --bg:#07120d; --card:#0f1f17; --line:#d5a33a; --text:#fffaf0; --muted:#c9c0aa;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;background:radial-gradient(circle at top,#123821,#07120d);color:var(--text)}
-  .wrap{max-width:900px;margin:0 auto;padding:18px}
-  h1{font-size:24px;margin:8px 0 4px;color:#ffd36b}
-  .sub{color:var(--muted);font-size:13px;margin-bottom:12px}
-  .panel{background:rgba(12,28,19,.94);border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 8px 30px rgba(0,0,0,.25)}
-  .top{display:flex;gap:10px;align-items:center;justify-content:space-between}
-  .stat{font-size:14px;color:var(--muted)}
-  .timer{font-size:30px;font-weight:900;color:#ffd36b}
-  select{font-size:16px;border-radius:10px;padding:3px 10px}
-  .table{min-height:430px;padding:8px;background:linear-gradient(135deg,#092016,#06130d);overflow:hidden}
-  .color-row{display:flex;align-items:center;gap:10px;min-height:78px;border-bottom:1px solid rgba(213,163,58,.22);padding:8px 0}
-  .color-row:last-child{border-bottom:0}
-  .name{width:52px;font-weight:800;font-size:14px;text-align:center;color:#ffd36b}
-  .spread-area{flex:1;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .set{position:relative;height:54px}
-  .chip{
-    position:absolute;top:0;width:54px;height:54px;border-radius:50%;
-    border:4px dashed #fff;box-shadow:0 3px 8px rgba(0,0,0,.45), inset 0 0 0 7px rgba(255,255,255,.18);
-    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;text-shadow:0 1px 2px #000;
-  }
-  .white{background:#f3f0e8;color:#6c5b2b;border-color:#d7cdb8;text-shadow:none}
-  .red{background:#bd1f1f}
-  .green{background:#168038}
-  .blue{background:#08479a}
-  .purple{background:#5b258a}
-  .yellow{background:#d8a900}
-  .pink{background:#e46a94}
-  .cyan{background:#1bb3c9}
-  .count{width:44px;text-align:right;color:#ddd;font-size:13px}
-  input{width:100%;font-size:28px;padding:14px;border-radius:12px;border:2px solid #b78932;background:#fffaf0}
-  .buttons{display:flex;gap:10px;margin-top:10px}
-  button{flex:1;border:0;border-radius:12px;padding:13px 10px;font-weight:900;font-size:16px;background:#ffd36b;color:#1c1300}
-  button.secondary{background:#26372d;color:#fff;border:1px solid #8a733b}
-  .result{font-size:18px;font-weight:900;min-height:28px;margin-top:10px}
-  .ok{color:#7dff9d}.ng{color:#ff8c8c}
-  .legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:12px}
-  .legend div{background:#13281d;border:1px solid #3c573f;border-radius:10px;padding:8px;text-align:center}
-  .small{font-size:12px;color:var(--muted);line-height:1.6}
-  @media(max-width:520px){
-    .wrap{padding:12px}
-    .table{min-height:430px}
-    .color-row{gap:5px;min-height:70px}
-    .name{width:42px;font-size:12px}
-    .count{width:32px;font-size:11px}
-    .spread-area{gap:9px}
-    .chip{width:44px;height:44px;font-size:10px;border-width:3px}
-    .set{height:44px}
-    .legend{grid-template-columns:repeat(2,1fr)}
-  }
+:root{--line:#d5a33a;--text:#fffaf0;--muted:#c9c0aa}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;background:radial-gradient(circle at top,#123821,#07120d);color:var(--text)}
+.wrap{max-width:900px;margin:0 auto;padding:12px}
+h1{font-size:23px;margin:8px 0 4px;color:#ffd36b}.sub{color:var(--muted);font-size:12px;margin-bottom:10px}
+.panel{background:rgba(12,28,19,.94);border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between}.stat{font-size:13px;color:var(--muted)}
+.timer{font-size:30px;font-weight:900;color:#ffd36b;white-space:nowrap}
+select{font-size:15px;border-radius:10px;padding:5px 8px;max-width:215px}
+.table{min-height:430px;padding:8px;background:linear-gradient(135deg,#092016,#06130d);overflow:hidden}
+.color-row{display:flex;align-items:center;gap:7px;min-height:75px;border-bottom:1px solid rgba(213,163,58,.22);padding:8px 0}.color-row:last-child{border-bottom:0}
+.name{width:48px;font-weight:800;font-size:13px;text-align:center;color:#ffd36b}
+.spread-area{flex:1;display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.set{position:relative;height:52px}
+.chip{position:absolute;top:0;width:52px;height:52px;border-radius:50%;border:4px dashed #fff;box-shadow:0 3px 8px rgba(0,0,0,.45),inset 0 0 0 7px rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:10px;text-shadow:0 1px 2px #000}
+.white{background:#f3f0e8;color:#6c5b2b;border-color:#d7cdb8;text-shadow:none}.red{background:#bd1f1f}.green{background:#168038}.blue{background:#08479a}.purple{background:#5b258a}.yellow{background:#d8a900}.pink{background:#e46a94}.cyan{background:#1bb3c9}
+.count{width:34px;text-align:right;color:#ddd;font-size:11px}
+input{width:100%;font-size:28px;padding:14px;border-radius:12px;border:2px solid #b78932;background:#fffaf0}
+.buttons{display:flex;gap:10px;margin-top:10px}
+button{flex:1;border:0;border-radius:12px;padding:13px 10px;font-weight:900;font-size:16px;background:#ffd36b;color:#1c1300}
+button.secondary{background:#26372d;color:#fff;border:1px solid #8a733b}
+.result{font-size:18px;font-weight:900;min-height:28px;margin-top:10px}.ok{color:#7dff9d}.ng{color:#ff8c8c}
+.legend{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:12px}.legend div{background:#13281d;border:1px solid #3c573f;border-radius:10px;padding:8px;text-align:center}
+.small{font-size:12px;color:var(--muted);line-height:1.6}
+@media(max-width:520px){.color-row{gap:5px;min-height:68px}.name{width:38px;font-size:12px}.count{width:28px;font-size:10px}.spread-area{gap:9px}.chip{width:43px;height:43px;font-size:9px;border-width:3px}.set{height:43px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>チップカウント練習</h1>
-  <div class="sub">色ごとにまとめて、5枚ずつスプレッド表示。5枚以下も枚数が見える形。</div>
+<h1>チップカウント練習</h1>
+<div class="sub">5枚単位でスプレッド表示。緑25だけ4枚単位。</div>
 
-  <div class="panel top">
-    <div>
-      <div class="stat">問題 <span id="qno">1</span> / 正解 <span id="score">0</span></div>
-      <div class="stat">難易度：
-        <select id="level">
-          <option value="easy">かんたん</option>
-          <option value="normal" selected>ふつう</option>
-          <option value="hard">むずかしい</option>
-        </select>
-      </div>
+<div class="panel top">
+  <div>
+    <div class="stat">問題 <span id="qnoEl">1</span> / 正解 <span id="scoreEl">0</span></div>
+    <div class="stat">モード：
+      <select id="modeEl">
+        <option value="all" selected>全部：1〜10000</option>
+        <option value="high">高額：100〜10000</option>
+        <option value="low">低額：1・5・25・100</option>
+      </select>
     </div>
-    <div class="timer"><span id="time">30</span>秒</div>
   </div>
+  <div class="timer"><span id="timeEl">40</span>秒</div>
+</div>
 
-  <div class="panel table" id="table"></div>
+<div class="panel table" id="tableEl"></div>
 
-  <div class="panel">
-    <input id="answer" inputmode="numeric" pattern="[0-9]*" placeholder="合計金額を入力" />
-    <div class="buttons">
-      <button onclick="checkAnswer()">答える</button>
-      <button class="secondary" onclick="newQuestion()">次の問題</button>
-    </div>
-    <div id="result" class="result"></div>
+<div class="panel">
+  <input id="answerEl" inputmode="numeric" pattern="[0-9]*" placeholder="合計金額を入力">
+  <div class="buttons">
+    <button id="checkBtn">答える</button>
+    <button class="secondary" id="nextBtn">次の問題</button>
   </div>
+  <div id="resultEl" class="result"></div>
+</div>
 
-  <div class="panel">
-    <div class="legend" id="legend"></div>
-    <p class="small">見方：1セット＝5枚の扇形。緑25だけは仕事用設定で1まとまり4枚に変更もできるけど、今回は「見た目練習」優先で5枚スプレッド表示。</p>
-  </div>
+<div class="panel">
+  <div class="legend" id="legendEl"></div>
+  <p class="small">25チップは4枚で1まとまり。ほかは5枚で1まとまり。大きい額から順に読むと速いよ。</p>
+</div>
 </div>
 
 <script>
-const chips = [
-  {name:"水色", value:10000, color:"cyan"},
-  {name:"ピンク", value:5000, color:"pink"},
-  {name:"黄", value:1000, color:"yellow"},
-  {name:"紫", value:500, color:"purple"},
-  {name:"青", value:100, color:"blue"},
-  {name:"緑", value:25, color:"green"},
-  {name:"赤", value:5, color:"red"},
-  {name:"白", value:1, color:"white"}
-];
+document.addEventListener("DOMContentLoaded", function(){
+  const allChips=[
+    {name:"水色",value:10000,color:"cyan",group:5},
+    {name:"ピンク",value:5000,color:"pink",group:5},
+    {name:"黄",value:1000,color:"yellow",group:5},
+    {name:"紫",value:500,color:"purple",group:5},
+    {name:"青",value:100,color:"blue",group:5},
+    {name:"緑",value:25,color:"green",group:4},
+    {name:"赤",value:5,color:"red",group:5},
+    {name:"白",value:1,color:"white",group:5}
+  ];
 
-let total=0, score=0, qno=1, timer=null, timeLeft=30;
+  let total=0, score=0, qno=1, timer=null, timeLeft=40;
 
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function format(n){return n.toLocaleString("ja-JP")}
+  const qnoEl=document.getElementById("qnoEl");
+  const scoreEl=document.getElementById("scoreEl");
+  const modeEl=document.getElementById("modeEl");
+  const timeEl=document.getElementById("timeEl");
+  const tableEl=document.getElementById("tableEl");
+  const answerEl=document.getElementById("answerEl");
+  const resultEl=document.getElementById("resultEl");
 
-function buildLegend(){
-  document.getElementById("legend").innerHTML = chips.map(c =>
-    `<div>${c.name}<br>${format(c.value)} / 5枚=${format(c.value*5)}</div>`
-  ).join("");
-}
+  function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+  function format(n){return n.toLocaleString("ja-JP")}
 
-function chipSet(c, n){
-  const w = 54 + Math.max(0,n-1)*16;
-  let html = `<div class="set" style="width:${w}px">`;
-  for(let i=0;i<n;i++){
-    html += `<div class="chip ${c.color}" style="left:${i*16}px;z-index:${i}">${format(c.value)}</div>`;
+  function chipsForMode(){
+    const m=modeEl.value;
+    if(m==="high")return allChips.filter(c=>[100,500,1000,5000,10000].includes(c.value));
+    if(m==="low")return allChips.filter(c=>[1,5,25,100].includes(c.value));
+    return allChips;
   }
-  html += `</div>`;
-  return html;
-}
 
-function row(c, count){
-  let html = `<div class="color-row"><div class="name">${c.name}</div><div class="spread-area">`;
-  let remain = count;
-  while(remain > 0){
-    let n = Math.min(5, remain);
-    html += chipSet(c,n);
-    remain -= n;
+  function buildLegend(){
+    document.getElementById("legendEl").innerHTML=allChips.map(c=>`<div>${c.name}<br>${format(c.value)} / ${c.group}枚=${format(c.value*c.group)}</div>`).join("");
   }
-  html += `</div><div class="count">${count}枚</div></div>`;
-  return html;
-}
 
-function newQuestion(){
-  clearInterval(timer);
-  document.getElementById("answer").value="";
-  document.getElementById("result").textContent="";
-  document.getElementById("result").className="result";
-  total = 0;
+  function chipSet(c,n){
+    const step=15;
+    const base=window.innerWidth<520?43:52;
+    const w=base+Math.max(0,n-1)*step;
+    let h=`<div class="set" style="width:${w}px">`;
+    for(let i=0;i<n;i++){
+      h+=`<div class="chip ${c.color}" style="left:${i*step}px;z-index:${i}">${format(c.value)}</div>`;
+    }
+    return h+"</div>";
+  }
 
-  const level = document.getElementById("level").value;
-  const maxPerColor = level==="easy" ? 10 : level==="normal" ? 25 : 45;
-  const minColors = level==="easy" ? 3 : 5;
-  const maxColors = level==="easy" ? 5 : level==="normal" ? 7 : 8;
+  function row(c,count){
+    let h=`<div class="color-row"><div class="name">${c.name}</div><div class="spread-area">`;
+    let r=count;
+    while(r>0){
+      const n=Math.min(c.group,r);
+      h+=chipSet(c,n);
+      r-=n;
+    }
+    return h+`</div><div class="count">${count}枚</div></div>`;
+  }
 
-  let selected = [...chips].sort(()=>Math.random()-0.5).slice(0, rand(minColors,maxColors));
-  selected.sort((a,b)=>b.value-a.value);
+  function generateCount(c,mode){
+    const maxGroups=mode==="low"?8:mode==="high"?6:5;
+    let count=rand(1,maxGroups)*c.group+rand(0,c.group-1);
+    if(Math.random()<0.25)count=rand(1,c.group);
+    return count;
+  }
 
-  let html = "";
-  selected.forEach(c=>{
-    let count;
-    if(level==="easy"){
-      count = rand(1,2)*5;
-      if(Math.random()<.45) count -= rand(1,4);
-    }else if(level==="normal"){
-      count = rand(1,5)*5;
-      if(Math.random()<.65) count -= rand(0,4);
+  function showResult(ok,msg){
+    resultEl.textContent=msg;
+    resultEl.className="result "+(ok?"ok":"ng");
+  }
+
+  function newQuestion(){
+    clearInterval(timer);
+    answerEl.value="";
+    resultEl.textContent="";
+    resultEl.className="result";
+    total=0;
+
+    const mode=modeEl.value;
+    const cs=chipsForMode();
+    const min=mode==="all"?5:Math.min(3,cs.length);
+    const selected=[...cs].sort(()=>Math.random()-0.5).slice(0,rand(min,cs.length)).sort((a,b)=>b.value-a.value);
+
+    let h="";
+    selected.forEach(c=>{
+      const count=generateCount(c,mode);
+      total+=count*c.value;
+      h+=row(c,count);
+    });
+    tableEl.innerHTML=h;
+
+    timeLeft=40;
+    timeEl.textContent=timeLeft;
+    timer=setInterval(()=>{
+      timeLeft--;
+      timeEl.textContent=timeLeft;
+      if(timeLeft<=0){
+        clearInterval(timer);
+        showResult(false,`時間切れ！正解は ${format(total)}`);
+      }
+    },1000);
+    answerEl.focus();
+  }
+
+  function checkAnswer(){
+    const val=Number(answerEl.value.replaceAll(",",""));
+    clearInterval(timer);
+    if(val===total){
+      score++;
+      scoreEl.textContent=score;
+      showResult(true,"正解！✨");
+      setTimeout(()=>{
+        qno++;
+        qnoEl.textContent=qno;
+        newQuestion();
+      },650);
     }else{
-      count = rand(1,9)*5;
-      if(Math.random()<.8) count -= rand(0,4);
+      showResult(false,`惜しい！正解は ${format(total)}`);
     }
-    if(count<1) count=1;
-    total += count*c.value;
-    html += row(c,count);
-  });
-  document.getElementById("table").innerHTML = html;
-
-  timeLeft = level==="hard" ? 15 : level==="normal" ? 30 : 45;
-  document.getElementById("time").textContent=timeLeft;
-  timer = setInterval(()=>{
-    timeLeft--;
-    document.getElementById("time").textContent=timeLeft;
-    if(timeLeft<=0){
-      clearInterval(timer);
-      showResult(false, `時間切れ！正解は ${format(total)}`);
-    }
-  },1000);
-  document.getElementById("answer").focus();
-}
-
-function showResult(ok,msg){
-  const r=document.getElementById("result");
-  r.textContent=msg;
-  r.className="result "+(ok?"ok":"ng");
-}
-
-function checkAnswer(){
-  const val = Number(document.getElementById("answer").value.replaceAll(",",""));
-  clearInterval(timer);
-  if(val===total){
-    score++;
-    document.getElementById("score").textContent=score;
-    showResult(true, "正解！✨");
-    setTimeout(()=>{qno++; document.getElementById("qno").textContent=qno; newQuestion();},700);
-  }else{
-    showResult(false, `惜しい！正解は ${format(total)}`);
   }
-}
 
-document.getElementById("answer").addEventListener("keydown", e=>{
-  if(e.key==="Enter") checkAnswer();
+  document.getElementById("checkBtn").addEventListener("click",checkAnswer);
+  document.getElementById("nextBtn").addEventListener("click",newQuestion);
+  answerEl.addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer()});
+  modeEl.addEventListener("change",()=>{qno++;qnoEl.textContent=qno;newQuestion()});
+
+  buildLegend();
+  newQuestion();
 });
-buildLegend();
-newQuestion();
 </script>
 </body>
 </html>
